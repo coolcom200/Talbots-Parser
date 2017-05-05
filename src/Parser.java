@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public class Parser {
         return "";
     }
 
-    public String[] fuzzySearch(String who) {
+    public String[] typoNameSearch(String who) {
         Set<String> keys = NamesToNumber.keySet();
         int maxFuzzyScore = 0;
         int score;
@@ -81,6 +80,11 @@ public class Parser {
 
         }
         for (String[] nameAndNumber :DuplicateNames) {
+            if ((score= FuzzySearch.ratio(who,nameAndNumber[0]))> maxFuzzyScore){
+                maxFuzzyScore = score;
+                name_number = nameAndNumber;
+
+            }
 
 
         }
@@ -102,7 +106,7 @@ public class Parser {
                 } else if (contains(DuplicateNames, 0, firstLastName)) { // What are we doing with duplicate names?
                     System.out.println(firstLastName + getIndex(DuplicateNames, 0, 1, firstLastName)); // currently only outputs one of the duplicate names
                 } else {
-                    String[] x = fuzzySearch(firstLastName);
+                    String[] x = typoNameSearch(firstLastName);
                     System.out.println("Closest name to " + firstLastName + " is " + x[0]);
 
                 }
