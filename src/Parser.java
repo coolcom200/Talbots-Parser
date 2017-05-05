@@ -32,7 +32,9 @@ public class Parser {
                     nameNum[1] = country[5];
                     String tempNum = NamesToNumber.get(name);
                     NamesToNumber.remove(name);
+                    //new guy
                     DuplicateNames.add(0, nameNum);
+                    //old guy
                     DuplicateNames.add(0, new String[]{name, tempNum});
 
                 } else {
@@ -46,6 +48,7 @@ public class Parser {
             e.printStackTrace();
         }
     }
+
 
     public static boolean contains(ArrayList<String[]> data, int indexToCheck, String searchQuery) {
         for (String[] entry : data) {
@@ -66,30 +69,37 @@ public class Parser {
         return "";
     }
 
-    public String[] typoNameSearch(String who) {
+    public ArrayList<String[]> typoNameSearch(String who) {
         Set<String> keys = NamesToNumber.keySet();
         int maxFuzzyScore = 0;
         int score;
-        String[] name_number = new String[2];
+//        ArrayList<String[]> nameNumber = new ArrayList<>();
+        ArrayList<String[]> pos = new ArrayList<>();
         for (String name : keys) {
             if ((score = FuzzySearch.ratio(who, name)) > maxFuzzyScore) {
                 maxFuzzyScore = score;
-                name_number[0] = name;
-                name_number[1] = NamesToNumber.get(name);
+//                nameNumber[0] = name;
+//                nameNumber[1] = NamesToNumber.get(name);
             }
 
         }
         for (String[] nameAndNumber :DuplicateNames) {
             if ((score= FuzzySearch.ratio(who,nameAndNumber[0]))> maxFuzzyScore){
                 maxFuzzyScore = score;
-                name_number = nameAndNumber;
-
+//                nameNumber = nameAndNumber;
             }
-
-
         }
-
-        return name_number;
+        for (String name : keys) {
+            if ((FuzzySearch.ratio(who, name)) == maxFuzzyScore) {
+                pos.add(new String[]{name, NamesToNumber.get(name)});
+            }
+        }
+        for (String[] nameAndNumber :DuplicateNames) {
+            if ((FuzzySearch.ratio(who,nameAndNumber[0])) == maxFuzzyScore){
+                pos.add(nameAndNumber);
+            }
+        }
+        return pos;
     }
 
     public void importStudents(String filePath) {
@@ -104,10 +114,16 @@ public class Parser {
                 if (NamesToNumber.containsKey(firstLastName)) {
                     System.out.println(firstLastName + " Value: " + NamesToNumber.get(firstLastName));
                 } else if (contains(DuplicateNames, 0, firstLastName)) { // What are we doing with duplicate names?
+                    System.out.println("asdasd");
                     System.out.println(firstLastName + getIndex(DuplicateNames, 0, 1, firstLastName)); // currently only outputs one of the duplicate names
                 } else {
-                    String[] x = typoNameSearch(firstLastName);
-                    System.out.println("Closest name to " + firstLastName + " is " + x[0]);
+                    ArrayList<String[]> x = typoNameSearch(firstLastName);
+                    for (String[] i:x){
+                        for (String j: i){
+                            System.out.println(j);
+                        }
+                    }
+                    System.out.println("Closest name to " + firstLastName + " is " + x.get(0)[0]);
 
                 }
 
