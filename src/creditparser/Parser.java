@@ -1,3 +1,5 @@
+package creditparser;
+
 import java.io.BufferedReader;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
@@ -141,8 +143,10 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        Parser P = new Parser("nerd club.csv");
-        P.importStudents("students.csv");
+//        Parser P = new Parser("nerd club.csv");
+//        P.importStudents("students.csv");
+//        Graphics gc = new Graphics();
+//        gc.main(new String[]{});
     }
 
 }

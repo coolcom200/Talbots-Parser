@@ -1,6 +1,7 @@
 /**
- * Created by Leon on 4/27/2017.
+ * Fuzzy string analysis.
  */
+package creditparser;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 
 public class FuzzyString {
