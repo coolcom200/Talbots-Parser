@@ -6,13 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Graphics for credits parser.
+ * Created by advai on 5/5/2017.
  */
 public class Graphics {
-
+    private JPanel mainPanel;
     private JTextField textField1;
     private JButton button1;
-    private JPanel mainPanel;
 
     public Graphics() {
         button1.addActionListener(new ActionListener() {
