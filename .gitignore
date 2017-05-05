@@ -48,8 +48,7 @@ Temporary Items
 
 *.idea
 
-out/
-src/META-INF/
+
 nerd club.csv
 students.csv
 Talbots-Parser.iml
