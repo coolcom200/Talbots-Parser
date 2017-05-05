@@ -49,7 +49,6 @@ public class Parser {
         }
     }
 
-
     public static boolean contains(ArrayList<String[]> data, int indexToCheck, String searchQuery) {
         for (String[] entry : data) {
             if (entry[indexToCheck].equalsIgnoreCase(searchQuery)) {
@@ -59,14 +58,15 @@ public class Parser {
         return false;
     }
 
-    public static String getIndex(ArrayList<String[]> data, int indexToCheck, int valueIndex, String searchQuery) {
+    public static ArrayList<String[]> getValue(ArrayList<String[]> data, int indexToCheck, int valueIndex, String searchQuery) {
+        ArrayList<String[]> matchingNames = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             String[] entry = data.get(i);
             if (entry[indexToCheck].equalsIgnoreCase(searchQuery)) {
-                return entry[valueIndex];
+                matchingNames.add(entry);
             }
         }
-        return "";
+        return matchingNames;
     }
 
     public ArrayList<String[]> typoNameSearch(String who) {
@@ -83,11 +83,13 @@ public class Parser {
             }
 
         }
-        for (String[] nameAndNumber :DuplicateNames) {
-            if ((score= FuzzySearch.ratio(who,nameAndNumber[0]))> maxFuzzyScore){
+        for (String[] nameAndNumber : DuplicateNames) {
+            if ((score = FuzzySearch.ratio(who, nameAndNumber[0])) > maxFuzzyScore) {
                 maxFuzzyScore = score;
 //                nameNumber = nameAndNumber;
             }
+
+
         }
         for (String name : keys) {
             if ((FuzzySearch.ratio(who, name)) == maxFuzzyScore) {
@@ -114,8 +116,11 @@ public class Parser {
                 if (NamesToNumber.containsKey(firstLastName)) {
                     System.out.println(firstLastName + " Value: " + NamesToNumber.get(firstLastName));
                 } else if (contains(DuplicateNames, 0, firstLastName)) { // What are we doing with duplicate names?
-                    System.out.println("asdasd");
-                    System.out.println(firstLastName + getIndex(DuplicateNames, 0, 1, firstLastName)); // currently only outputs one of the duplicate names
+                    ArrayList<String[]> dupMatchingNames = getValue(DuplicateNames, 0, 1, firstLastName);
+                    for (String[] n : dupMatchingNames) {
+                        System.out.println(firstLastName + " " + n[1] + " DUPLICATE!"); // currently only outputs one of the duplicate names
+                    }
+
                 } else {
                     ArrayList<String[]> x = typoNameSearch(firstLastName);
                     for (String[] i:x){
